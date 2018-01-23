@@ -1,8 +1,16 @@
-<?php session_start();?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<?php require_once('../inicio.php'); ?>
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<?php 
+ 	
+ 		$sql = "SELECT * FROM parking";
+ 		$listaparking = mysqli_query($_SESSION["con"],$sql);
+ 		$row_listaparking = mysqli_fetch_assoc($listaparking);
+		$totalRows_listaparking = mysqli_num_rows($listaparking);
+ 		
+?>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 
 <title>parking</title>
@@ -62,6 +70,22 @@
       <div class="col-md-6">.col-md-6</div>
     </div>
   </div>
+  <h1>Lista Categoria</h1>
+    <p>&nbsp;</p>
+    <p><a href="Categorias_add.php">A&ntilde;adir Categoria</a></p>
+    <table width="100%" border="1">
+      <tr>
+        <td>Nombre De categoria</td>
+        <td>Acciones</td>
+      </tr>
+      <?php do { ?>
+        <tr>
+          <td><?php echo $row_listaparking['str_descripcion']; ?></td>
+          <td><a href="Categorias_edit.php?recordid=<?php echo $row_listaparking['int_id_parking']; ?>">Editar</a> - <a href="Categorias_elim.php?recordid=<?php echo $row_listaparking['int_id_parking']; ?>">Eliminar</a></td>
+        </tr>
+        <?php } while ($row_listaparking = mysqli_fetch_assoc($listaparking)); ?>
+    </table>
+    <p>&nbsp;</p>
   
   
   
@@ -70,4 +94,4 @@
     <?php include '..\includes\footeradmin.php' ?>
 
 </body>
-<!-- InstanceEnd --></html>
+</html>
