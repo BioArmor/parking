@@ -1,9 +1,8 @@
 <?php //funciona
-
 session_start();
-  if ($_SESSION['uname'] = null);{
-  header('Location: index.php'); 
- exit();
+  if (!isset($_SESSION["uname"])){
+    header('Location: index.php'); 
+    exit();
 
   }
  ?>
@@ -32,8 +31,6 @@ session_start();
   </head>
 
   <body id="page-top">
-
-
     <!-- Navigation -->
     <!--
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="mainNav">-->
@@ -91,7 +88,7 @@ session_start();
           <div class="col-xs-3">
           <br/>
             <input class="typeahead form-control" type="text" placeholder="Buscar">
-            <!--<?php
+            <?php /*
             $servername = "localhost";
             $username = "root";
             $password = "";
@@ -100,10 +97,10 @@ session_start();
             $resultset = mysqli_query($conn, $sql) or die("database error:". mysqli_error($conn));
             $json = array();
             while( $rows = mysqli_fetch_assoc($resultset) ) {
-            $json[] = $rows["employee_name"];
+            $json[] = $rows["employee_name"]; 
             }
-            echo json_encode($json);
-            ?>-->
+            echo json_encode($json); */
+            ?>
           </div>
         </div>
       

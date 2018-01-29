@@ -14,7 +14,7 @@
  			$_SESSION["id"] = $fila["id_usuario"];
  			$_SESSION["uname"] = $_POST["uname"];
  			$_SESSION["dni"] = $fila["str_dni"];
- 			$_SESSION["telefono"] = $fila["str_telefono"];
+ 			$_SESSION["telefono"] = $fila["str_telefono_1"];
  			
  			//Falta dni y telefono en bbdd y añadir email como clave foranea
  			
@@ -29,7 +29,7 @@
 
  			header('Location: index.php');
  		}else{
- 			$_SESSION["uname"] = null;
+ 			$_SESSION["uname"] == null;
  			echo "Login incorrecto. Pruébalo de nuevo. Recuerde que el nombre de usuario es el mail";
  		}
  	}

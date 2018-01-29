@@ -1,19 +1,19 @@
-<?php
-//funciona
+<?php //funciona
 session_start();
-  if ($_SESSION['uname'] = null);{
-  header('Location: index.php'); 
-  exit();
+  if (!isset($_SESSION["uname"])){
+    header('Location: index.php'); 
+    exit();
+
   }
   // La variable de sessió uname té valor, sino t ha d enviar direcament al login
   // si existeix uname, fer un select a la taula usuaris per recuperar el nom sencer, telèfon,etc. que
   
 
 // es posarà després al ormulari
-$nom_complet = "Profe de m07";
-$apellido = "algo";
-$DNI = "12345678P";
-$telefon = "93 668 42 35";
+$nom_complet = $_SESSION["nombre"];
+$apellido = $_SESSION["apellido"];
+$DNI = $_SESSION["dni"];
+$telefon = $_SESSION["telefono"];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -92,15 +92,7 @@ $telefon = "93 668 42 35";
 		<div class="row">
 		  <div class="col-md-6">	
 		      <h4>Subir parking</h4><br/>
-		  	  <input type="text" class="form-control" id="Nombre" placeholder="Nombre">
-          <?php    
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "parkingv0.3";
-            $sql = "SELECT * FROM usuarios WHERE str_nombre='" . $_SESSION["uname"];
-            
-          ?>
+          
 			    <input type="text" class="form-control" id="Nombre" placeholder="Nombre" value="Nombre: <?=$nom_complet?>" readonly>
           <input type="text" class="form-control" id="Apellido" placeholder="Apellido" value="Apellido: <?=$apellido?>" readonly>
 			    <input type="text" class="form-control" id="DNI" placeholder="DNI" value="DNI: <?=$DNI?>" readonly>
