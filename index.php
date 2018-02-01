@@ -1,3 +1,36 @@
+<?php //funciona
+session_start();
+
+  // La variable de sessió uname té valor, sino t ha d enviar direcament al login
+  // si existeix uname, fer un select a la taula usuaris per recuperar el nom sencer, telèfon,etc. que
+  
+               $mostrar_admin=0;
+               $mostrar_alquiler=0;
+               $mostrar_usuari=0;
+
+
+// es posarà després al ormulari
+if(isset($_SESSION['uname'])){
+  $nom_complet = $_SESSION["nombre"];
+  $apellido = $_SESSION["apellido"];
+  $DNI = $_SESSION["dni"];
+  $telefon = $_SESSION["telefono"];
+  $rol=$_SESSION["role"];
+
+               //recorrer l'arrey i comprovar
+               for($i=0; $i<count($rol);$i++){
+                if($rol[$i]==1){//admin
+                  $mostrar_admin=1;
+                }
+                if ($rol[$i]==2) {//usuari
+                  $mostrar_alquiler=1;
+                }
+               if ($rol[$i] == 3) {//propietari
+                  $mostrar_usuari=1;
+               }
+               }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -76,13 +109,18 @@
               <a class="nav-link text-uppercase text-expanded" href="index.php">INICIO
                 <span class="sr-only">(current)</span>
               </a>
-            </li>
+            </li><?php
+              if(($mostrar_alquiler == 1) || ($mostrar_admin == 1)){ ?>
             <li class="nav-item px-lg-4">
               <a class="nav-link text-uppercase text-expanded" href="alquiler.php">ALQUILER DE PARKING</a>
             </li>
+            <?php } ?>
+            <?php
+              if(($mostrar_usuari == 1) || ($mostrar_admin == 1)){ ?>
             <li class="nav-item px-lg-4">
               <a class="nav-link text-uppercase text-expanded" href="plazas.php">AGREGAR PLAZAS</a>
             </li>
+            <?php } ?>
             <li class="nav-item px-lg-4">
               <a class="nav-link text-uppercase text-expanded" href="store.html">CONTACTO</a>
             </li>

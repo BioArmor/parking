@@ -1,12 +1,35 @@
 <?php //funciona
-
 session_start();
-  if ($_SESSION['uname'] = null);{
-  header('Location: index.php'); 
- exit();
+  if (!isset($_SESSION["uname"])){
+    header('Location: index.php'); 
+    exit();
 
   }
- ?>
+
+
+$nom_complet = $_SESSION["nombre"];
+$apellido = $_SESSION["apellido"];
+$DNI = $_SESSION["dni"];
+$telefon = $_SESSION["telefono"];
+$rol=$_SESSION["role"];
+               $mostrar_admin=0;
+               $mostrar_alquiler=0;
+               $mostrar_usuari=0;
+               //recorrer l'arrey i comprovar
+               for($i=0; $i<count($rol);$i++){
+                if($rol[$i]==1){//admin
+                  $mostrar_admin=1;
+                }
+                if ($rol[$i]==2) {//usuari
+                  $mostrar_alquiler=1;
+                }
+               if ($rol[$i] == 3) {//propietari
+                  $mostrar_usuari=1;
+               }
+               }
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,8 +55,6 @@ session_start();
   </head>
 
   <body id="page-top">
-
-
     <!-- Navigation -->
     <!--
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="mainNav">-->
@@ -63,13 +84,19 @@ session_start();
               <a class="nav-link text-uppercase text-expanded" href="index.php">INICIO
                 <span class="sr-only">(current)</span>
               </a>
-            </li>
+            </li>             
+            <?php
+              if(($mostrar_alquiler == 1) || ($mostrar_admin == 1)){ ?>
             <li class="nav-item px-lg-4">
               <a class="nav-link text-uppercase text-expanded" href="alquiler.php">ALQUILER DE PARKING</a>
             </li>
+            <?php } ?>
+            <?php
+              if(($mostrar_usuari == 1) || ($mostrar_admin == 1)){ ?>
             <li class="nav-item px-lg-4">
               <a class="nav-link text-uppercase text-expanded" href="plazas.php">AGREGAR PLAZAS</a>
             </li>
+            <?php } ?> 
             <li class="nav-item px-lg-4">
               <a class="nav-link text-uppercase text-expanded" href="store.html">CONTACTO</a>
             </li>
@@ -91,7 +118,7 @@ session_start();
           <div class="col-xs-3">
           <br/>
             <input class="typeahead form-control" type="text" placeholder="Buscar">
-            <!--<?php
+            <?php /*
             $servername = "localhost";
             $username = "root";
             $password = "";
@@ -100,10 +127,10 @@ session_start();
             $resultset = mysqli_query($conn, $sql) or die("database error:". mysqli_error($conn));
             $json = array();
             while( $rows = mysqli_fetch_assoc($resultset) ) {
-            $json[] = $rows["employee_name"];
+            $json[] = $rows["employee_name"]; 
             }
-            echo json_encode($json);
-            ?>-->
+            echo json_encode($json); */
+            ?>
           </div>
         </div>
       

@@ -1,19 +1,35 @@
-<?php
-//funciona
+<?php //funciona
 session_start();
-  if ($_SESSION['uname'] = null);{
-  header('Location: index.php'); 
-  exit();
+  if (!isset($_SESSION["uname"])){
+    header('Location: index.php'); 
+    exit();
+
   }
   // La variable de sessió uname té valor, sino t ha d enviar direcament al login
   // si existeix uname, fer un select a la taula usuaris per recuperar el nom sencer, telèfon,etc. que
   
 
 // es posarà després al ormulari
-$nom_complet = "Profe de m07";
-$apellido = "algo";
-$DNI = "12345678P";
-$telefon = "93 668 42 35";
+$nom_complet = $_SESSION["nombre"];
+$apellido = $_SESSION["apellido"];
+$DNI = $_SESSION["dni"];
+$telefon = $_SESSION["telefono"];
+$rol=$_SESSION["role"];
+               $mostrar_admin=0;
+               $mostrar_alquiler=0;
+               $mostrar_usuari=0;
+               //recorrer l'arrey i comprovar
+               for($i=0; $i<count($rol);$i++){
+                if($rol[$i]==1){//admin
+                  $mostrar_admin=1;
+                }
+                if ($rol[$i]==2) {//usuari
+                  $mostrar_alquiler=1;
+                }
+               if ($rol[$i] == 3) {//propietari
+                  $mostrar_usuari=1;
+               }
+               }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,13 +85,19 @@ $telefon = "93 668 42 35";
               <a class="nav-link text-uppercase text-expanded" href="index.php">INICIO
                 <span class="sr-only">(current)</span>
               </a>
-            </li>
+            </li>            
+            <?php
+              if(($mostrar_alquiler == 1) || ($mostrar_admin == 1)){ ?>
             <li class="nav-item px-lg-4">
               <a class="nav-link text-uppercase text-expanded" href="alquiler.php">ALQUILER DE PARKING</a>
             </li>
+            <?php } ?>
+            <?php
+              if(($mostrar_usuari == 1) || ($mostrar_admin == 1)){ ?>
             <li class="nav-item px-lg-4">
               <a class="nav-link text-uppercase text-expanded" href="plazas.php">AGREGAR PLAZAS</a>
             </li>
+            <?php } ?> 
             <li class="nav-item px-lg-4">
               <a class="nav-link text-uppercase text-expanded" href="store.html">CONTACTO</a>
             </li>
@@ -92,20 +114,12 @@ $telefon = "93 668 42 35";
 		<div class="row">
 		  <div class="col-md-6">	
 		      <h4>Subir parking</h4><br/>
-		  	  <input type="text" class="form-control" id="Nombre" placeholder="Nombre">
-          <?php    
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "parkingv0.3";
-            $sql = "SELECT * FROM usuarios WHERE str_nombre='" . $_SESSION["uname"];
-            
-          ?>
+          
 			    <input type="text" class="form-control" id="Nombre" placeholder="Nombre" value="Nombre: <?=$nom_complet?>" readonly>
           <input type="text" class="form-control" id="Apellido" placeholder="Apellido" value="Apellido: <?=$apellido?>" readonly>
 			    <input type="text" class="form-control" id="DNI" placeholder="DNI" value="DNI: <?=$DNI?>" readonly>
-			 	  <input type="text" class="form-control" id="Telefono" placeholder="Telefono" value="Telefono: <?=$telefon?>">
-				  <input type="text" class="form-control" id="Calle" placeholder="Calle del parking">
+			 	  <input type="text" class="form-control" id="Telefono" placeholder="Telefono" value="Telefono: <?=$telefon?>" required>
+				  <input type="text" class="form-control" id="Calle" placeholder="Calle del parking" required>
  <?php
     if ( !empty($_POST['submit']) ) {
 $query = "INSERT INTO 'usuarios' (str_direcion) values ('{$_POST['str_direcion']}')";
@@ -118,7 +132,7 @@ $response = mysql_query($query, $conn);
         <div class="form-group">
           Fecha entrada
             <div class='input-group date' id='datetimepicker6'>
-                <input type='date' class="form-control" />
+                <input type='date' class="form-control" required>
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
@@ -134,7 +148,7 @@ $response = mysql_query($query, $conn);
         <div class="form-group">
           Fecha salida
             <div class='input-group date' id='datetimepicker6'>
-                <input type='date' class="form-control" />
+                <input type='date' class="form-control" required>
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
@@ -156,12 +170,14 @@ $response = mysql_query($query, $conn);
             $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
         });
     });
-</script>			    <input type="text" class="form-control" id="Precio" placeholder="Precio">
-			    <input type="text" class="form-control" id="Caracteristicas" placeholder="Caracteristicas"></div>
+</script>			    
+
+          <input type="text" class="form-control" id="Precio" placeholder="Precio" required>
+			    <input type="text" class="form-control" id="Caracteristicas" placeholder="Caracteristicas" required></div>
 		 		  <div class="col-md-6">
 					<div class="container">
 			          <div class="form-group">
-					      <input type="file" class="container" id="exampleInputFile" aria-describedby="fileHelp"><br/>
+					      <input type="file" class="container" id="exampleInputFile" aria-describedby="fileHelp" required><br/>
 									    <!--<small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>-->
 						    <br/>
 						    <!--Imatges-->
