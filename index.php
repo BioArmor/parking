@@ -53,8 +53,7 @@ if(isset($_SESSION['uname'])){
   <body id="page-top">
 
     <!-- Navigation -->
-    <!--
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="mainNav">-->
+    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="mainNav">-->
       <nav class="navbar navbar-expand-lg navbar-light bg-light" id="mainNav">
       <div class="container">
         <a class="navbar-brand js-scroll-trigger" href="#page-top">ALQUILER DE PLAZAS DE PARKING</a>
@@ -78,21 +77,20 @@ if(isset($_SESSION['uname'])){
 
       <label><b>Password</b></label>
       <input type="password" placeholder="Enter Password" name="psw" required>
-        
-      <button type="submit">Login</button>
-      
+         
     </div>
 
     <div class="container" style="background-color:#f1f1f1">
-      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-      
+       <div class="pull-right" style="background-color:#f1f1f1">
+      <button type="submit">Login</button>
+    </div>
+      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>      
     </div>
   </form>
 </div>
-
 <script src="assets/js/login.js"></script>
 <script src="assets/js/validacion.js"></script>
-      </nav>
+</nav>
 
 
 

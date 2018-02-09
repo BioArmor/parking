@@ -15,6 +15,7 @@ $apellido = $_SESSION["apellido"];
 $DNI = $_SESSION["dni"];
 $telefon = $_SESSION["telefono"];
 $rol=$_SESSION["role"];
+
                $mostrar_admin=0;
                $mostrar_alquiler=0;
                $mostrar_usuari=0;
@@ -81,7 +82,7 @@ $rol=$_SESSION["role"];
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav mx-auto">
-            <li class="nav-item active px-lg-4">
+            <li class="nav-item px-lg-4">
               <a class="nav-link text-uppercase text-expanded" href="index.php">INICIO
                 <span class="sr-only">(current)</span>
               </a>
@@ -94,7 +95,7 @@ $rol=$_SESSION["role"];
             <?php } ?>
             <?php
               if(($mostrar_usuari == 1) || ($mostrar_admin == 1)){ ?>
-            <li class="nav-item px-lg-4">
+            <li class="nav-item active px-lg-4">
               <a class="nav-link text-uppercase text-expanded" href="plazas.php">AGREGAR PLAZAS</a>
             </li>
             <?php } ?> 
@@ -109,6 +110,7 @@ $rol=$_SESSION["role"];
 
     <!-- Agregar plazas-->
 
+  <form action="agregar_plazas.php" method="post">
     <section id="plazas">
       <div class="container">
 		<div class="row">
@@ -118,8 +120,8 @@ $rol=$_SESSION["role"];
 			    <input type="text" class="form-control" id="Nombre" placeholder="Nombre" value="Nombre: <?=$nom_complet?>" readonly>
           <input type="text" class="form-control" id="Apellido" placeholder="Apellido" value="Apellido: <?=$apellido?>" readonly>
 			    <input type="text" class="form-control" id="DNI" placeholder="DNI" value="DNI: <?=$DNI?>" readonly>
-			 	  <input type="text" class="form-control" id="Telefono" placeholder="Telefono" value="Telefono: <?=$telefon?>" required>
-				  <input type="text" class="form-control" id="Calle" placeholder="Calle del parking" required>
+			 	  <input type="text" class="form-control" id="Telefono" placeholder="Telefono" value="Telefono: <?=$telefon?>" readonly>
+				  <input type="text" class="form-control" id="Calle" name="direccion" placeholder="Calle del parking" required>
  <?php
     if ( !empty($_POST['submit']) ) {
 $query = "INSERT INTO 'usuarios' (str_direcion) values ('{$_POST['str_direcion']}')";
@@ -132,7 +134,7 @@ $response = mysql_query($query, $conn);
         <div class="form-group">
           Fecha entrada
             <div class='input-group date' id='datetimepicker6'>
-                <input type='date' class="form-control" required>
+                <input type='date' class="form-control" name="fecha_inicio" required>
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
@@ -148,7 +150,7 @@ $response = mysql_query($query, $conn);
         <div class="form-group">
           Fecha salida
             <div class='input-group date' id='datetimepicker6'>
-                <input type='date' class="form-control" required>
+                <input type='date' class="form-control" name="fecha_final" required>
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
@@ -172,12 +174,13 @@ $response = mysql_query($query, $conn);
     });
 </script>			    
 
-          <input type="text" class="form-control" id="Precio" placeholder="Precio" required>
-			    <input type="text" class="form-control" id="Caracteristicas" placeholder="Caracteristicas" required></div>
+          <input type="text" class="form-control" id="Precio" placeholder="Precio" name="precio" required>
+			    <input type="text" class="form-control" id="Caracteristicas" placeholder="Caracteristicas" name="caracteristicas"></div>
 		 		  <div class="col-md-6">
 					<div class="container">
 			          <div class="form-group">
-					      <input type="file" class="container" id="exampleInputFile" aria-describedby="fileHelp" required><br/>
+                  <!--Agregar imatges-->
+					      <input type="file" class="container" id="exampleInputFile" aria-describedby="fileHelp" name="imagen" required><br/>
 									    <!--<small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>-->
 						    <br/>
 						    <!--Imatges-->
@@ -194,12 +197,12 @@ $response = mysql_query($query, $conn);
 
 	  <div class="container">
 		<div class="boto">
-          <button type="button" class="boto">Modificar</button>          
-          <button type="button" class="boto">Agregar</button>
+          <button type="submit" class="boto">Modificar</button>          
+          <button type="submit" class="boto">Agregar</button>
 		</div>
 	  </div>
 
-
+</form>
 <br/><br/>
 
     <!-- Footer -->

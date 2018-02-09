@@ -80,14 +80,14 @@ $rol=$_SESSION["role"];
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav mx-auto">
-            <li class="nav-item active px-lg-4">
+            <li class="nav-item px-lg-4">
               <a class="nav-link text-uppercase text-expanded" href="index.php">INICIO
                 <span class="sr-only">(current)</span>
               </a>
             </li>             
             <?php
               if(($mostrar_alquiler == 1) || ($mostrar_admin == 1)){ ?>
-            <li class="nav-item px-lg-4">
+            <li class="nav-item active px-lg-4">
               <a class="nav-link text-uppercase text-expanded" href="alquiler.php">ALQUILER DE PARKING</a>
             </li>
             <?php } ?>

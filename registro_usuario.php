@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 
 <?php
- $DB_SERVER = "127.0.0.1";
+$DB_SERVER = "127.0.0.1";
 $DB_NAME = "parking";
 $DB_USER = "root";
 $DB_PASS = "";
-  $con =mysqli_connect($DB_SERVER,$DB_USER,$DB_PASS,$DB_NAME);
+$con =mysqli_connect($DB_SERVER,$DB_USER,$DB_PASS,$DB_NAME);
  
  
  if ($con->connect_error) {
