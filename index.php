@@ -1,5 +1,35 @@
 <?php //funciona
 session_start();
+
+  // La variable de sessió uname té valor, sino t ha d enviar direcament al login
+  // si existeix uname, fer un select a la taula usuaris per recuperar el nom sencer, telèfon,etc. que
+  
+               $mostrar_admin=0;
+               $mostrar_alquiler=0;
+               $mostrar_usuari=0;
+
+
+// es posarà després al ormulari
+if(isset($_SESSION['uname'])){
+  $nom_complet = $_SESSION["nombre"];
+  $apellido = $_SESSION["apellido"];
+  $DNI = $_SESSION["dni"];
+  $telefon = $_SESSION["telefono"];
+  $rol=$_SESSION["role"];
+
+               //recorrer l'arrey i comprovar
+               for($i=0; $i<count($rol);$i++){
+                if($rol[$i]==1){//admin
+                  $mostrar_admin=1;
+                }
+                if ($rol[$i]==2) {//usuari
+                  $mostrar_alquiler=1;
+                }
+               if ($rol[$i] == 3) {//propietari
+                  $mostrar_usuari=1;
+               }
+               }
+}
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,42 +60,126 @@ session_start();
         <a class="navbar-brand js-scroll-trigger" href="#page-top">ALQUILER DE PLAZAS DE PARKING</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         </button>
-        <div class="pull-right">
-          <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
+       
+        <?php
+        if (!isset($_SESSION["uname"])){ ?>
+          <div class="pull-right">
+            <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Entra</button>
+            <button onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Regístrate</button>
+          </div>
+        <?php }else{ ?>
+          <div class="pull-right">
+            <button onclick="window.location='logout.php';" style="width:auto;">Logout</button>
         </div>
+        <?php } ?>
+      </div>
 
 <div id="id01" class="modal">
   
   <form class="modal-content animate" method="post" action="loginComprobacionBBDD.php">
     <div class="imgcontainer">
-      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Cerrar">&times;</span>
       
     </div>
 
     <div class="container">
-      <label><b>Dirección de correo</b></label>
-      <input type="text" placeholder="Enter email" name="uname" required>
+      <h1>Entra</h1></br>
+      <label><b>Dirección de correo</b></label></br>
+      <input type="text" placeholder="Introduce tu correo electrónico" name="uname" required></br>
 
-      <label><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" required>
+      <label><b>Contraseña</b></label></br>
+      <input type="password" placeholder="Introduce tu contraseña" name="psw" required></br>
         
-      <button type="submit">Login</button>
+      <!--<button type="submit">Entra</button>-->
       
     </div>
-
+    <?php
+      if (isset($_GET["error"])){
+        if ($_GET["error"] == "1"){
+          echo "<p align='center' id='error'>*Login incorrecto. Pruébalo de nuevo. Recuerde que el nombre de usuario es el mail.</p>";
+        }
+      }
+    ?>
     <div class="container" style="background-color:#f1f1f1">
-      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-      
+      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Volver</button>
+      <button type="submit" class="acceptbtn">Entra</button>
     </div>
   </form>
 </div>
 
 <script src="assets/js/login.js"></script>
 <script src="assets/js/validacion.js"></script>
+
+<div id="id02" class="modal">
+  
+  <form class="modal-content animate" method="post" action="registrar-usuarios.php">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Cerrar">&times;</span>
+      
+    </div>
+
+    <div class="container">
+      <div class="caja2">
+      <h1>Regístrate</h1></br>
+      <label><b>Nombre</b></label></br>
+      <input type="text" name="username" maxlength="32" required></br>
+        
+      <label><b>Apellido</b></label></br>
+      <input type="text" name="apellidos" maxlength="32" required></br>
+
+      <label><b>Email</b></label></br>
+      <input type="text" name="email" maxlength="32" required></br>
+
+      <label><b>Direccion</b></label></br>
+      <input type="text" name="direccion" maxlength="90" required></br>
+
+      <label><b>Fecha Nacimiento</b></label></br></br>
+      <input type="date" name="edad" maxlength="32" required></br></br>    
+      </div>
+
+      <div class="caja3">
+      <h1>Regístrate</h1></br>
+      <label><b>Telefono 1</b></label></br>
+      <input type="text" name="tel1" maxlength="9" required></br>
+      
+      <label><b>Telefono 2</b></label></br>
+      <input type="text" name="tel2" maxlength="9"></br>
+
+      <label><b>DNI</b></label></br>
+      <input type="text" name="dni" maxlength="9" required></br>
+
+      <label><b>Password</b></label></br>
+      <input type="password" name="password" maxlength="8" required></br>
+
+      <label><b>Imagen perfil</b></label>
+      <input type="file" name="imag" class="container" id="exampleInputFile" aria-describedby="fileHelp">
+      <br />
+      </div>
+      <br/><br/><br/><br/>
+       <select name="role"> 
+        <?php
+                    
+          $query = "SELECT * FROM roles where int_id_rol <> 1";
+          $result = mysqli_query($con, $query);
+                      
+          while ($valores = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
+                        
+            echo '<option value="'.$valores['int_id_rol'].'">'.$valores['str_rol'].'</option>';
+                          
+          }
+        ?>
+      </select><br/>
+      <!--<button type="submit">Registrarme</button>-->
+      <input type="reset" name="clear" value="Limpiar">  
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+      <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Volver</button>
+      <button type="submit" class="acceptbtn">Registrarme</button>  
+    </div>
+  </form>
+</div>
       </nav>
-
-
-
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light py-lg-4" id="mainNav">
       <div class="container">
@@ -79,13 +193,36 @@ session_start();
               <a class="nav-link text-uppercase text-expanded" href="index.php">INICIO
                 <span class="sr-only">(current)</span>
               </a>
-            </li>
+            </li><?php
+              if(($mostrar_alquiler == 1) || ($mostrar_admin == 1)){ ?>
             <li class="nav-item px-lg-4">
               <a class="nav-link text-uppercase text-expanded" href="alquiler.php">ALQUILER DE PARKING</a>
             </li>
+            <?php } ?>
+            <?php
+              if(($mostrar_usuari == 1) || ($mostrar_admin == 1)){ ?>
             <li class="nav-item px-lg-4">
               <a class="nav-link text-uppercase text-expanded" href="plazas.php">AGREGAR PLAZAS</a>
             </li>
+            <?php } ?>
+            <?php
+              if(($mostrar_alquiler == 1) || ($mostrar_admin == 1)){ ?>
+            <li class="nav-item px-lg-4">
+              <a class="nav-link text-uppercase text-expanded" href="mis_alquileres.php">MIS ALQUILERES</a>
+            </li>
+            <?php } ?>
+            <?php
+              if(($mostrar_alquiler == 1) || ($mostrar_admin == 1)){ ?>
+            <li class="nav-item px-lg-4">
+              <a class="nav-link text-uppercase text-expanded" href="calendario_alquiler.php">CALENDARIO</a>
+            </li>
+            <?php } ?>
+            <?php
+              if(($mostrar_usuari == 1) || ($mostrar_admin == 1)){ ?>
+            <li class="nav-item px-lg-4">
+              <a class="nav-link text-uppercase text-expanded" href="mis_plazas.php">MIS PLAZAS</a>
+            </li>
+            <?php } ?>
             <li class="nav-item px-lg-4">
               <a class="nav-link text-uppercase text-expanded" href="store.html">CONTACTO</a>
             </li>
@@ -93,9 +230,6 @@ session_start();
         </div>
       </div>
     </nav>
-
-
-<br/>
 
     <section id="about">
       <div class="container">
