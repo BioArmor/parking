@@ -119,6 +119,12 @@ if(isset($_SESSION['uname'])){
               <a class="nav-link text-uppercase text-expanded" href="plazas.php">AGREGAR PLAZAS</a>
             </li>
             <?php } ?>
+            <?php
+              if(($mostrar_usuari == 1) || ($mostrar_admin == 1)){ ?>
+            <li class="nav-item px-lg-4">
+              <a class="nav-link text-uppercase text-expanded" href="mis_plazas.php">MIS PLAZAS</a>
+            </li>
+            <?php } ?>
             <li class="nav-item px-lg-4">
               <a class="nav-link text-uppercase text-expanded" href="store.html">CONTACTO</a>
             </li>
@@ -127,8 +133,6 @@ if(isset($_SESSION['uname'])){
       </div>
     </nav>
 
-
-<br/>
 
     <section id="about">
       <div class="container">
@@ -151,7 +155,7 @@ if(isset($_SESSION['uname'])){
   <div id="map">
     <script>
       function initMap() {
-        var uluru = {lat: -25.363, lng: 131.044};
+        var uluru = {lat: 41.3979911, lng: 2.0518154000000095};
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 4,
           center: uluru
